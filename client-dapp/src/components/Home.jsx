@@ -14,7 +14,6 @@ export default function Home() {
         onClick={() => {
           localStorage.removeItem("email");
           localStorage.removeItem("account");
-          window.location.reload();
           navigate("/");
         }}
       >
