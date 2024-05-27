@@ -32,7 +32,7 @@ export default function SignUp() {
       try {
         const res = await auth.methods.usersList(email).call();
 
-        if (res) {
+        if (res.email !=="") {
           alert("User already exists with this email address");
           setEmail("");
           return;
