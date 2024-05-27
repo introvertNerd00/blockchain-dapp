@@ -23,13 +23,21 @@ export default function SignUp() {
       alert("Please fill all details");
       return;
     }
-    var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    var mailformat = /^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/;
     if (!email.match(mailformat)) {
       alert("Please enter a valid email address");
       return;
     }
     if (auth) {
       try {
+        const res = await auth.methods.usersList(email).call();
+
+        if (res) {
+          alert("User already exists with this email address");
+          setEmail("");
+          return;
+        }
+
         await auth.methods
           .createUser(username, email, password)
           .send({ from: accounts });
@@ -42,8 +50,8 @@ export default function SignUp() {
         console.log(e.message);
       }
     } else {
-      console.error('Smart contract not found on the current network.');
-      alert('Smart contract not found on the current network.');
+      console.error("Smart contract not found on the current network.");
+      alert("Smart contract not found on the current network.");
     }
   };
 
@@ -57,11 +65,7 @@ export default function SignUp() {
 
   return (
     <div style={rootDiv}>
-      <img
-        src={image_link}
-        style={image}
-        alt="geeks"
-      />
+      <img src={image_link} style={image} alt="geeks" />
       <input
         style={input}
         value={username}
@@ -89,7 +93,6 @@ export default function SignUp() {
     </div>
   );
 }
-
 
 const rootDiv = {
   display: "flex",
